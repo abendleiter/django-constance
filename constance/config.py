@@ -1,4 +1,5 @@
 from constance import settings, utils
+import json
 
 
 class Config(object):
@@ -19,6 +20,13 @@ class Config(object):
             result = default
             setattr(self, key, default)
             return result
+        # Try to convert to JSON, if it succeeds return the JSON object,
+        # otherwise just return the normal value
+        try:
+            json_string = json.loads(result)
+            result = json_string
+        except Exception:
+            pass
         return result
 
     def __setattr__(self, key, value):
